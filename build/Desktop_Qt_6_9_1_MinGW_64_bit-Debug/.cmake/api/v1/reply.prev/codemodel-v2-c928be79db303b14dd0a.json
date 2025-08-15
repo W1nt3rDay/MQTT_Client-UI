@@ -1,0 +1,88 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-4557b671d5ff2e74c5b1.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "MQTT_UI",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "MQTT_UI::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-MQTT_UI-Debug-8419dc7b12b7fd4c5dea.json",
+					"name" : "MQTT_UI",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "MQTT_UI_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-MQTT_UI_autogen-Debug-3d9a406704bcd2614667.json",
+					"name" : "MQTT_UI_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "MQTT_UI_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-MQTT_UI_autogen_timestamp_deps-Debug-19e89e1c83b25e4b21f0.json",
+					"name" : "MQTT_UI_autogen_timestamp_deps",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "MQTT_UI_qmlimportscan::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-MQTT_UI_qmlimportscan-Debug-a33691ed902a739ba5de.json",
+					"name" : "MQTT_UI_qmlimportscan",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "E:/QT_Projects/MQTT_UI/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug",
+		"source" : "E:/QT_Projects/MQTT_UI"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}
