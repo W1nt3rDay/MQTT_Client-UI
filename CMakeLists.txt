@@ -21,8 +21,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(MQTT_UI
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        #src/cpp/mqtt.h
-        #src/cpp/mqtt.cpp
+        src/cpp/mqtt.h
+        src/cpp/mqtt.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET MQTT_UI APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

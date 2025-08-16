@@ -65,6 +65,14 @@ build CMakeFiles/MQTT_UI.dir/main.cpp.obj: CXX_COMPILER__MQTT_UI_unscanned_Debug
   OBJECT_DIR = CMakeFiles\MQTT_UI.dir
   OBJECT_FILE_DIR = CMakeFiles\MQTT_UI.dir
 
+build CMakeFiles/MQTT_UI.dir/src/cpp/mqtt.cpp.obj: CXX_COMPILER__MQTT_UI_unscanned_Debug E$:/QT_Projects/MQTT_UI/src/cpp/mqtt.cpp || cmake_object_order_depends_target_MQTT_UI
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_OPENGL_LIB -DQT_QMLINTEGRATION_LIB -DQT_QMLMETA_LIB -DQT_QMLMODELS_LIB -DQT_QMLWORKERSCRIPT_LIB -DQT_QML_LIB -DQT_QUICK_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\MQTT_UI.dir\src\cpp\mqtt.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17 -fdiagnostics-color=always
+  INCLUDES = -IE:/QT_Projects/MQTT_UI/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/MQTT_UI_autogen/include -isystem D:/APP/QT/6.9.1/mingw_64/include/QtCore -isystem D:/APP/QT/6.9.1/mingw_64/include -isystem D:/APP/QT/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/APP/QT/6.9.1/mingw_64/include/QtQuick -isystem D:/APP/QT/6.9.1/mingw_64/include/QtGui -isystem D:/APP/QT/6.9.1/mingw_64/include/QtQml -isystem D:/APP/QT/6.9.1/mingw_64/include/QtQmlIntegration -isystem D:/APP/QT/6.9.1/mingw_64/include/QtNetwork -isystem D:/APP/QT/6.9.1/mingw_64/include/QtQmlMeta -isystem D:/APP/QT/6.9.1/mingw_64/include/QtQmlModels -isystem D:/APP/QT/6.9.1/mingw_64/include/QtQmlWorkerScript -isystem D:/APP/QT/6.9.1/mingw_64/include/QtOpenGL
+  OBJECT_DIR = CMakeFiles\MQTT_UI.dir
+  OBJECT_FILE_DIR = CMakeFiles\MQTT_UI.dir\src\cpp
+
 build CMakeFiles/MQTT_UI.dir/MQTT_UI_autogen/EWIEGA46WW/qrc_qml.cpp.obj: CXX_COMPILER__MQTT_UI_unscanned_Debug E$:/QT_Projects/MQTT_UI/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/MQTT_UI_autogen/EWIEGA46WW/qrc_qml.cpp || cmake_object_order_depends_target_MQTT_UI
   DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_OPENGL_LIB -DQT_QMLINTEGRATION_LIB -DQT_QMLMETA_LIB -DQT_QMLMODELS_LIB -DQT_QMLWORKERSCRIPT_LIB -DQT_QML_LIB -DQT_QUICK_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
   DEP_FILE = CMakeFiles\MQTT_UI.dir\MQTT_UI_autogen\EWIEGA46WW\qrc_qml.cpp.obj.d
@@ -81,7 +89,7 @@ build CMakeFiles/MQTT_UI.dir/MQTT_UI_autogen/EWIEGA46WW/qrc_qml.cpp.obj: CXX_COM
 #############################################
 # Link the executable MQTT_UI.exe
 
-build MQTT_UI.exe: CXX_EXECUTABLE_LINKER__MQTT_UI_Debug CMakeFiles/MQTT_UI.dir/MQTT_UI_autogen/mocs_compilation.cpp.obj CMakeFiles/MQTT_UI.dir/main.cpp.obj CMakeFiles/MQTT_UI.dir/MQTT_UI_autogen/EWIEGA46WW/qrc_qml.cpp.obj | D$:/APP/QT/6.9.1/mingw_64/lib/libQt6Quick.a D$:/APP/QT/6.9.1/mingw_64/lib/libQt6QmlMeta.a D$:/APP/QT/6.9.1/mingw_64/lib/libQt6QmlWorkerScript.a D$:/APP/QT/6.9.1/mingw_64/lib/libQt6QmlModels.a D$:/APP/QT/6.9.1/mingw_64/lib/libQt6Qml.a D$:/APP/QT/6.9.1/mingw_64/lib/libQt6OpenGL.a D$:/APP/QT/6.9.1/mingw_64/lib/libQt6Gui.a D$:/APP/QT/6.9.1/mingw_64/lib/libQt6Network.a D$:/APP/QT/6.9.1/mingw_64/lib/libQt6Core.a D$:/APP/QT/6.9.1/mingw_64/lib/libQt6EntryPoint.a || MQTT_UI_autogen MQTT_UI_autogen_timestamp_deps MQTT_UI_qmlimportscan
+build MQTT_UI.exe: CXX_EXECUTABLE_LINKER__MQTT_UI_Debug CMakeFiles/MQTT_UI.dir/MQTT_UI_autogen/mocs_compilation.cpp.obj CMakeFiles/MQTT_UI.dir/main.cpp.obj CMakeFiles/MQTT_UI.dir/src/cpp/mqtt.cpp.obj CMakeFiles/MQTT_UI.dir/MQTT_UI_autogen/EWIEGA46WW/qrc_qml.cpp.obj | D$:/APP/QT/6.9.1/mingw_64/lib/libQt6Quick.a D$:/APP/QT/6.9.1/mingw_64/lib/libQt6QmlMeta.a D$:/APP/QT/6.9.1/mingw_64/lib/libQt6QmlWorkerScript.a D$:/APP/QT/6.9.1/mingw_64/lib/libQt6QmlModels.a D$:/APP/QT/6.9.1/mingw_64/lib/libQt6Qml.a D$:/APP/QT/6.9.1/mingw_64/lib/libQt6OpenGL.a D$:/APP/QT/6.9.1/mingw_64/lib/libQt6Gui.a D$:/APP/QT/6.9.1/mingw_64/lib/libQt6Network.a D$:/APP/QT/6.9.1/mingw_64/lib/libQt6Core.a D$:/APP/QT/6.9.1/mingw_64/lib/libQt6EntryPoint.a || MQTT_UI_autogen MQTT_UI_autogen_timestamp_deps MQTT_UI_qmlimportscan
   FLAGS = -DQT_QML_DEBUG -g
   LINK_FLAGS = -mwindows
   LINK_LIBRARIES = D:/APP/QT/6.9.1/mingw_64/lib/libQt6Quick.a  D:/APP/QT/6.9.1/mingw_64/lib/libQt6QmlMeta.a  D:/APP/QT/6.9.1/mingw_64/lib/libQt6QmlWorkerScript.a  D:/APP/QT/6.9.1/mingw_64/lib/libQt6QmlModels.a  D:/APP/QT/6.9.1/mingw_64/lib/libQt6Qml.a  D:/APP/QT/6.9.1/mingw_64/lib/libQt6OpenGL.a  D:/APP/QT/6.9.1/mingw_64/lib/libQt6Gui.a  -ld3d11  -ldxgi  -ldxguid  -ld3d12  -luser32  D:/APP/QT/6.9.1/mingw_64/lib/libQt6Network.a  D:/APP/QT/6.9.1/mingw_64/lib/libQt6Core.a  -lmpr  -luserenv  -lmingw32  D:/APP/QT/6.9.1/mingw_64/lib/libQt6EntryPoint.a  -lshell32  -lws2_32  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32

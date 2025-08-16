@@ -112,15 +112,14 @@ Rectangle {
             height: 40
             font.bold: true
             font.pixelSize: 16
-            property bool isConnected: false  // 记录连接状态
-            property bool isHovered: false    // 记录悬停状态
+            property bool isConnected: false
+            property bool isHovered: false
 
             // 重写contentItem以同时控制Image和Text
             contentItem: Item {
                 id: contentContainer
                 anchors.fill: parent
 
-                // 直接对容器应用缩放，不使用target属性
                 scale: connectButton.isHovered ? 1.1 : 1.0
                 Behavior on scale {
                     NumberAnimation {
@@ -180,6 +179,12 @@ Rectangle {
                 onClicked: {
                     connectButton.isConnected = !connectButton.isConnected
                     console.log(connectButton.isConnected ? "Connected" : "Disconnected")
+                    mqttClient.setServerIP(serverIPTextField.text)
+                    mqttClient.setServerPort(portField.text)
+                    mqttClient.setClientID(clientIdField.text)
+                    mqttClient.setUserName(userNameField.text)
+                    mqttClient.setPassword(passwordField.text)
+                    //mqttClient.start()
                 }
             }
         }
@@ -344,261 +349,6 @@ Rectangle {
 
         }
 
-    //     //Publish Topic textField
-    //     Row {
-    //         id: msgTopicRow
-    //         spacing: 41
 
-    //         // 标签样式优化
-    //         Label {
-    //             text: "Publish Topic:"
-    //             font.bold: true
-    //             font.pixelSize: 18
-    //             color: "#333333"  // 深灰色更显专业
-    //             anchors.verticalCenter: parent.verticalCenter  // 与输入框垂直居中对齐
-    //         }
-
-    //         Item{
-    //             width: 220
-    //             height: 36
-    //             // 带样式的输入框
-    //             TextField {
-    //                 id: msgTopicField
-    //                 width: 220  // 增加宽度，适应较长的主题名
-    //                 height: 36
-    //                 leftPadding: 10
-    //                 rightPadding: 30
-    //                 font.pixelSize: 16
-    //                 font.family: "Segoe UI, Arial, sans-serif"  // 更通用的字体选择
-    //                 placeholderText: "例如: sensors/temperature"  // 更贴合MQTT主题的示例
-    //                 inputMethodHints: Qt.ImhNoPredictiveText  // 关闭预测文本，适合技术输入
-    //                 // 自定义验证状态属性（替代不存在的error属性）
-    //                 property bool isInvalid: false
-
-    //                 // 自定义背景
-    //                 background: Rectangle {
-    //                     id: msgTopicFieldBg
-    //                     color: msgTopicField.focus ? "#ffffff" : "#f5f5f5"
-    //                     border.color: msgTopicField.isInvalid ? "#e53935" :
-    //                                   msgTopicField.focus ? "#4caf50" : "#dddddd"
-    //                     border.width: 1.5
-    //                     radius: 6
-
-    //                     // 聚焦时的微妙阴影效果
-    //                     DropShadow {
-    //                         anchors.fill: msgTopicFieldBg
-    //                         radius: 3
-    //                         samples: 5
-    //                         color: "#80000000"
-    //                         source: msgTopicFieldBg
-    //                         opacity: msgTopicField.focus ? 0.3 : 0
-    //                         Behavior on opacity {
-    //                             NumberAnimation { duration: 200 }
-    //                         }
-    //                     }
-
-    //                     // 状态变化动画
-    //                     Behavior on border.color {
-    //                         ColorAnimation { duration: 200 }
-    //                     }
-    //                     Behavior on color {
-    //                         ColorAnimation { duration: 200 }
-    //                     }
-    //                 }
-
-    //                 // 聚焦时的提示
-    //                 onFocusChanged: {
-    //                     if (focus && text.length === 0) {
-    //                         console.log("提示: MQTT主题可以包含通配符 # 和 +")
-    //                     }
-    //                 }
-
-    //                 ToolTip {
-    //                     id: msgErrorTip
-    //                     text: "主题只能包含字母、数字、下划线及/#+-.等字符"
-    //                     visible: msgTopicField.isInvalid && msgTopicField.focus
-    //                     delay: 500
-    //                 }
-
-    //                 onTextChanged: {
-    //                     // 使用自定义正则验证，不依赖error属性
-    //                     const validRegex = /^[\w\/#\+\-]*$/
-    //                     isInvalid = text.length > 0 && !validRegex.test(text)
-    //                 }
-    //             }
-    //             Image {
-    //                 id:clearImg
-    //                 height: 24
-    //                 width: 24
-    //                 visible: msgTopicField.text.length > 0
-    //                 anchors.right: parent.right
-    //                 anchors.rightMargin: 5
-    //                 anchors.verticalCenter:parent.verticalCenter
-    //                 source: "/Resources/remove 01.png"
-    //                 MouseArea{
-    //                     anchors.fill: parent
-    //                     hoverEnabled: true
-    //                     onEntered: {
-    //                         cursorShape = Qt.PointingHandCursor
-    //                     }
-    //                     onExited: {
-    //                         cursorShape = Qt.ArrowCursor
-    //                     }
-    //                     onClicked: {
-    //                         msgTopicField.isInvalid = false
-    //                         msgTopicField.clear()
-    //                     }
-    //                 }
-    //             }
-
-    //         }
-
-
-    //     }
-    //     //Publish Message textField
-    //     Row {
-    //         id: msgRow
-    //         spacing: 12
-
-    //         // 标签样式优化
-    //         Label {
-    //             text: "Publish Message:"
-    //             font.bold: true
-    //             font.pixelSize: 18
-    //             color: "#333333"  // 深灰色更显专业
-    //             anchors.verticalCenter: parent.verticalCenter  // 与输入框垂直居中对齐
-    //         }
-
-    //         Item{
-    //             width: 220
-    //             height: 36
-    //             // 带样式的输入框
-    //             TextField {
-    //                 id: msgPublishField
-    //                 width: 220  // 增加宽度，适应较长的主题名
-    //                 height: 36
-    //                 leftPadding: 10
-    //                 rightPadding: 30
-    //                 font.pixelSize: 16
-    //                 font.family: "Segoe UI, Arial, sans-serif"  // 更通用的字体选择
-    //                 placeholderText: "例如: sensors/temperature"  // 更贴合MQTT主题的示例
-    //                 inputMethodHints: Qt.ImhNoPredictiveText  // 关闭预测文本，适合技术输入
-    //                 // 自定义验证状态属性（替代不存在的error属性）
-    //                 property bool isInvalid: false
-
-    //                 // 自定义背景
-    //                 background: Rectangle {
-    //                     id: msgPublishFieldBg
-    //                     color: msgPublishField.focus ? "#ffffff" : "#f5f5f5"
-    //                     border.color: msgPublishField.isInvalid ? "#e53935" :
-    //                                   msgPublishField.focus ? "#4caf50" : "#dddddd"
-    //                     border.width: 1.5
-    //                     radius: 6
-
-    //                     // 聚焦时的微妙阴影效果
-    //                     DropShadow {
-    //                         anchors.fill: msgPublishFieldBg
-    //                         radius: 3
-    //                         samples: 5
-    //                         color: "#80000000"
-    //                         source: msgPublishFieldBg
-    //                         opacity: msgPublishField.focus ? 0.3 : 0
-    //                         Behavior on opacity {
-    //                             NumberAnimation { duration: 200 }
-    //                         }
-    //                     }
-
-    //                     // 状态变化动画
-    //                     Behavior on border.color {
-    //                         ColorAnimation { duration: 200 }
-    //                     }
-    //                     Behavior on color {
-    //                         ColorAnimation { duration: 200 }
-    //                     }
-    //                 }
-
-    //                 // 聚焦时的提示
-    //                 onFocusChanged: {
-    //                     if (focus && text.length === 0) {
-    //                         console.log("提示: MQTT主题可以包含通配符 # 和 +")
-    //                     }
-    //                 }
-
-    //                 ToolTip {
-    //                     id: msgPublishErrorTip
-    //                     text: "主题只能包含字母、数字、下划线及/#+-.等字符"
-    //                     visible: msgPublishField.isInvalid && msgPublishField.focus
-    //                     delay: 500
-    //                 }
-
-    //                 onTextChanged: {
-    //                     // 使用自定义正则验证，不依赖error属性
-    //                     const validRegex = /^[\w\/#\+\-]*$/
-    //                     isInvalid = text.length > 0 && !validRegex.test(text)
-    //                 }
-    //             }
-    //             Image {
-    //                 height: 24
-    //                 width: 24
-    //                 visible: msgPublishField.text.length > 0
-    //                 anchors.right: parent.right
-    //                 anchors.rightMargin: 5
-    //                 anchors.verticalCenter:parent.verticalCenter
-    //                 source: "/Resources/remove 01.png"
-    //                 MouseArea{
-    //                     anchors.fill: parent
-    //                     hoverEnabled: true
-    //                     onEntered: {
-    //                         cursorShape = Qt.PointingHandCursor
-    //                     }
-    //                     onExited: {
-    //                         cursorShape = Qt.ArrowCursor
-    //                     }
-    //                     onClicked: {
-    //                         msgPublishField.isInvalid = false
-    //                         msgPublishField.clear()
-    //                     }
-    //                 }
-    //             }
-
-    //         }
-
-
-    //     }
-    //     //Publish Button
-    //     Button{
-    //             id: publishButton
-    //             text: "Publish"
-    //             width: 120
-    //             height: 36
-    //             font.bold: true
-    //             font.pixelSize: 14
-
-    //             background: Rectangle {
-    //                 radius: 6
-    //                 border.width: 2
-    //                 border.color: publishButton.hovered ? "#ffb74d" : "#ff9800"
-    //                 color: publishButton.hovered ? "#fff8e1" : "transparent"
-
-    //                 Behavior on border.color {
-    //                     ColorAnimation { duration: 200 }
-    //                 }
-    //                 Behavior on color {
-    //                     ColorAnimation { duration: 200 }
-    //                 }
-    //             }
-
-    //             MouseArea {
-    //                 anchors.fill: parent
-    //                 hoverEnabled: true
-    //                 cursorShape: Qt.PointingHandCursor
-    //                 onClicked: {
-    //                     console.log("发布主题:", topicField.text);
-    //                     // 实际发布逻辑...
-    //                 }
-    //             }
-
-    //         }
-    // }
     }
 }

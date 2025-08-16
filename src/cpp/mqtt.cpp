@@ -1,3 +1,4 @@
+#include <qdebug.h>
 #pragma warning(disable : 4996)
 #include <winsock2.h> 
 #pragma comment(lib, "ws2_32.lib")
@@ -13,13 +14,13 @@
 
 
 // -------------------- MQTT服务器的参数 --------------------
-#define SERVER_IP   "124.70.218.131"
-#define SERVER_PORT 1883
+//#define SERVER_IP   "124.70.218.131"
+//#define SERVER_PORT 1883
 
 // -------------------- MQTT三元组 --------------------
-#define CLIENTID	"6883826694a9a05c33772d12_dev_6ull_0_0_2025072513" //设备ID
-#define USERNAME    "6883826694a9a05c33772d12_dev_6ull" //用户名
-#define PASSWORD    "e28fd984809b1c41768994a2c8ebb24fbff9eea4534888dab00e7d347029e059"
+//#define CLIENTID	"6883826694a9a05c33772d12_dev_6ull_0_0_2025072513" //设备ID
+//#define USERNAME    "6883826694a9a05c33772d12_dev_6ull" //用户名
+//#define PASSWORD    "e28fd984809b1c41768994a2c8ebb24fbff9eea4534888dab00e7d347029e059"
 // -------------------- 订阅、发布主题 --------------------
 #define SET_TOPIC   "$oc/devices/6883826694a9a05c33772d12_dev_6ull/sys/messages/down"
 #define POST_TOPIC  "$oc/devices/6883826694a9a05c33772d12_dev_6ull/sys/properties/report"
@@ -32,6 +33,80 @@ unsigned char mqtt_rxbuf[1024 * 1024];
 unsigned char mqtt_txbuf[256];
 unsigned int mqtt_rxlen;
 unsigned int mqtt_txlen;
+
+MqttClient::MqttClient(QObject *parent) : QObject(parent)
+{
+
+}
+
+QString MqttClient::serverIP() const {
+    return m_serverIP;
+}
+
+void MqttClient::setServerIP(const QString &ip)
+{
+    qDebug() << "Set Server IP:" << ip;
+    if (m_serverIP != ip) {
+        m_serverIP = ip;
+        emit serverIPChanged();
+    }
+}
+
+int MqttClient::serverPort() const
+{
+    return m_serverPort;
+}
+
+void MqttClient::setServerPort(int port)
+{
+    qDebug() << "Set Server Port:" << port;
+    if (m_serverPort != port) {
+        m_serverPort = port;
+        emit serverPortChanged();
+    }
+}
+
+QString MqttClient::clientID() const
+{
+    return m_clientID;
+}
+
+void MqttClient::setClientID(const QString &clientid)
+{
+    qDebug() << "Set Server Port:" << clientid;
+    if (m_clientID != clientid) {
+        m_clientID = clientid;
+        emit clientIDChanged();
+    }
+}
+
+QString MqttClient::userName() const
+{
+    return m_userName;
+}
+
+void MqttClient::setUserName(const QString &username)
+{
+    qDebug() << "Set Server Port:" << username;
+    if (m_userName != username) {
+        m_userName = username;
+        emit userNameChanged();
+    }
+}
+
+QString MqttClient::password() const
+{
+    return m_password;
+}
+
+void MqttClient::setPassword(const QString &pswd)
+{
+    qDebug() << "Set Server Port:" << pswd;
+    if (m_password != pswd) {
+        m_password = pswd;
+        emit passwordChanged();
+    }
+}
 
 void MQTT_Init()
 {
@@ -49,7 +124,7 @@ void MQTT_SendBuf(const unsigned char* buf, uint32_t len)
 
 
 //连接MQTT
-unsigned char MQTT_Connect(char* ClientID, char* Username, char* Password)
+unsigned char MQTT_Connect(const char* ClientID, const char* Username, const char* Password)
 {
 	int size = 0; //接收数据的大小
 	int ClientIDLen = (int)strlen(ClientID);
@@ -376,7 +451,7 @@ int Client_GetData(unsigned char* buf)
 }
 
 
-int main()
+int MqttClient::start()
 {
 
 	int result = WSAStartup(MAKEWORD(2, 2), &wsaData); //初始化Winsock
@@ -397,6 +472,14 @@ int main()
 	// 设置服务器地址和端口
 	struct addrinfo hints, * result_list, * ptr;
 	int sock_result;
+    QByteArray ipBytes = m_serverIP.toUtf8();
+    const char* ip = ipBytes.constData();
+    QByteArray clientIdBytes = m_clientID.toUtf8();
+    const char* id = clientIdBytes.constData();
+    QByteArray userBytes = m_userName.toUtf8();
+    const char* user = userBytes.constData();
+    QByteArray pswdBytes = m_password.toUtf8();
+    const char* pswd = pswdBytes.constData();
 
 	// 初始化hints结构
 	ZeroMemory(&hints, sizeof(hints));
@@ -405,7 +488,7 @@ int main()
 	hints.ai_protocol = IPPROTO_TCP; // TCP协议
 
 	// 解析域名或IP地址
-	sock_result = getaddrinfo(SERVER_IP, NULL, &hints, &result_list);
+    sock_result = getaddrinfo(ip, NULL, &hints, &result_list);
 	if (sock_result != 0) {
 		printf("getaddrinfo failed with error: %d\n", sock_result);
 		return 1;
@@ -421,10 +504,10 @@ int main()
 		}
 
 		// 设置端口号
-		((struct sockaddr_in*)ptr->ai_addr)->sin_port = htons(SERVER_PORT);
+        ((struct sockaddr_in*)ptr->ai_addr)->sin_port = htons(m_serverPort);
 
 		// 连接到服务器
-		sock_result = connect(connectSocket, ptr->ai_addr, (int)ptr->ai_addrlen);
+        sock_result = ::connect(connectSocket, ptr->ai_addr, (int)ptr->ai_addrlen);
 		if (sock_result == SOCKET_ERROR) {
 			printf("Connection failed with error: %d\n", WSAGetLastError());
 			closesocket(connectSocket);
@@ -444,7 +527,7 @@ int main()
 		return 1;
 	}
 
-	printf("Connected to MQTT server at %s:%d\n", SERVER_IP, SERVER_PORT);
+    printf("Connected to MQTT server at %s:%d\n", ip, m_serverPort);
 
 	/*连接成功，开始MQTT连接*/
 
@@ -453,7 +536,7 @@ int main()
 	while (true)
 	{
 		/*登陆服务器*/
-		if ( 0 == MQTT_Connect((char*)CLIENTID, (char*)USERNAME, (char*)PASSWORD) )
+        if ( 0 == MQTT_Connect(id, user, pswd) )
 		{
 			printf("登陆成功！MQTT_Connect: Login successful\n");
 			break; //登录成功，跳出循环

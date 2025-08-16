@@ -1,8 +1,9 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 
-#include <QtQuickControls2/QQuickStyle>
-//#include "src/cpp/mqtt.h"
+//#include <QtQuickControls2/QQuickStyle>
+#include "src/cpp/mqtt.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,8 +13,10 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
 
-
     QQmlApplicationEngine engine;
+    MqttClient mqttClient;
+    engine.rootContext()->setContextProperty("mqttClient", &mqttClient);
+
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(
         &engine,

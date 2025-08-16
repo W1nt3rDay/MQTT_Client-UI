@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Basic
 import Qt5Compat.GraphicalEffects
-
+//import
 Rectangle {
     id: mqttInterface
 
@@ -171,22 +171,20 @@ Rectangle {
                         id: msgTopicRow
                         spacing: 10
 
-                        // 标签样式优化
                         Label {
                             text: "Publish Topic:"
                             font.bold: true
                             font.pixelSize: 14
-                            color: "#333333"  // 深灰色更显专业
-                            anchors.verticalCenter: parent.verticalCenter  // 与输入框垂直居中对齐
+                            color: "#333333"
+                            anchors.verticalCenter: parent.verticalCenter
                         }
 
                         Item{
                             width: 400
                             height: 36
-                            // 带样式的输入框
                             TextField {
                                 id: msgTopicField
-                                width: 394  // 增加宽度，适应较长的主题名
+                                width: 394
                                 height: 36
                                 leftPadding: 5
                                 rightPadding: 5
@@ -204,7 +202,6 @@ Rectangle {
                                     border.width: 1
                                     radius: 4
 
-                                    // 聚焦时的微妙阴影效果
                                     DropShadow {
                                         anchors.fill: msgTopicFieldBg
                                         radius: 3
@@ -217,7 +214,6 @@ Rectangle {
                                         }
                                     }
 
-                                    // 状态变化动画
                                     Behavior on border.color {
                                         ColorAnimation { duration: 200 }
                                     }
@@ -226,7 +222,6 @@ Rectangle {
                                     }
                                 }
 
-                                // 聚焦时的提示
                                 onFocusChanged: {
                                     if (focus && text.length === 0) {
                                         console.log("提示: MQTT主题可以包含通配符 # 和 +")
@@ -276,22 +271,33 @@ Rectangle {
                     }
                 }
 
-                    TextField {
-                        id: publishTextEdit
-                        placeholderText: "Enter the message content..."
-                        font.pixelSize: 14
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        Layout.minimumHeight: 60
-                        leftPadding: 5
-                        topPadding: 5
-                        background: Rectangle {
-                            color: "white"
-                            border.color: "#ddd"
-                            border.width: 1
-                            radius: 4
+                //message input textfield
+                Rectangle {
+                    width: 500
+                    height: 75
+                    border.color: "#ddd"
+                    border.width: 1
+                    radius: 4
+                    color: "white"
+
+                    ScrollView {
+                        id: scrollView
+                        anchors.fill: parent
+                        clip: true
+
+                        TextArea {
+                            id: mqttMessageInput
+                            wrapMode: TextArea.Wrap
+                            placeholderText: "Enter MQTT message..."
+                            font.pixelSize: 14
+                            focus: true
+                            leftPadding: 5
+                            topPadding: 5
+                            bottomPadding: 5
+                            rightPadding: 5
                         }
                     }
+                }
 
 
                 // Publish control
@@ -346,7 +352,19 @@ Rectangle {
                             border.width: 1
                         }
 
-                        onClicked: { publishTextEdit.text = ""; publishTopicField.text = "" }
+                        MouseArea{
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: {
+                                cursorShape = Qt.PointingHandCursor
+                            }
+                            onExited: {
+                                cursorShape = Qt.ArrowCursor
+                            }
+                            onClicked: {
+                                mqttMessageInput.text = ""
+                            }
+                        }
                     }
 
                     CheckBox {

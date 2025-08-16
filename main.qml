@@ -12,6 +12,7 @@ Window {
     color: "#f0f0f0"
     title: qsTr("MQTT Client V1.0")
 
+
     Row{
         id: mainRow
         spacing: 60

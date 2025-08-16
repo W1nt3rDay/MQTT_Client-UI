@@ -15,7 +15,7 @@
   *==============================*/
 #include <winsock2.h>                                      // SOCKET, WSADATA
 #include <stdint.h>                                               // uint32_t
-
+#include <QObject>
   /*==============================
    * 宏定义（字节操作）
    *==============================*/
@@ -79,7 +79,7 @@ typedef enum {
   * @param Password  密码
   * @return 0 成功, 1 失败
   */
-unsigned char MQTT_Connect(char* ClientID, char* Username, char* Password);
+unsigned char MQTT_Connect(const char* ClientID, const char* Username, const char* Password);
 
 /**
  * @brief 发送数据到服务器
@@ -121,5 +121,49 @@ int Client_SendData(const unsigned char* data, uint32_t len);
  * @brief 网络层接口 - 接收数据
  */
 int Client_GetData(unsigned char* buf);
+
+
+
+/**
+ * @brief QT通信接口 - setServerIP
+ */
+class MqttClient : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(QString serverIP READ serverIP WRITE setServerIP NOTIFY serverIPChanged)
+    Q_PROPERTY(int serverPort READ serverPort WRITE setServerPort NOTIFY serverPortChanged)
+    Q_PROPERTY(QString clientID READ clientID WRITE setClientID NOTIFY clientIDChanged)
+    Q_PROPERTY(QString userName READ userName WRITE setUserName NOTIFY userNameChanged)
+    Q_PROPERTY(QString password READ password WRITE setPassword NOTIFY passwordChanged)
+public:
+    explicit MqttClient(QObject *parent = nullptr);
+    QString serverIP() const;
+    int serverPort() const;
+    QString clientID() const;
+    QString userName() const;
+    QString password() const;
+public slots:
+    Q_INVOKABLE void setServerIP(const QString &ip);
+    Q_INVOKABLE void setServerPort(const int port);
+    Q_INVOKABLE void setClientID(const QString &clientid);
+    Q_INVOKABLE void setUserName(const QString &username);
+    Q_INVOKABLE void setPassword(const QString &pswd);
+    Q_INVOKABLE int start();
+
+signals:
+    void serverIPChanged();
+    void serverPortChanged();
+    void clientIDChanged();
+    void userNameChanged();
+    void passwordChanged();
+private:
+    QString m_serverIP = "124.70.218.131";
+    int m_serverPort = 1883;
+    QString m_clientID = "6883826694a9a05c33772d12_dev_6ull_0_0_2025072513";
+    QString m_userName = "6883826694a9a05c33772d12_dev_6ull";
+    QString m_password = "e28fd984809b1c41768994a2c8ebb24fbff9eea4534888dab00e7d347029e059";
+};
+
+
 
 #endif // MQTT_H

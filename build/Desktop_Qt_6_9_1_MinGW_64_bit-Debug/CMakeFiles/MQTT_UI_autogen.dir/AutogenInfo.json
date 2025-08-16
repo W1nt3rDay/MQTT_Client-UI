@@ -957,7 +957,15 @@
 	"CROSS_CONFIG" : false,
 	"DEP_FILE" : "E:/QT_Projects/MQTT_UI/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/MQTT_UI_autogen/deps",
 	"DEP_FILE_RULE_NAME" : "MQTT_UI_autogen/timestamp",
-	"HEADERS" : [],
+	"HEADERS" : 
+	[
+		[
+			"E:/QT_Projects/MQTT_UI/src/cpp/mqtt.h",
+			"MU",
+			"S5MZHKY2R4/moc_mqtt.cpp",
+			null
+		]
+	],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
 	"INCLUDE_DIR" : "E:/QT_Projects/MQTT_UI/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/MQTT_UI_autogen/include",
 	"MOC_COMPILATION_FILE" : "E:/QT_Projects/MQTT_UI/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/MQTT_UI_autogen/mocs_compilation.cpp",
@@ -1043,7 +1051,8 @@
 	"SETTINGS_FILE" : "E:/QT_Projects/MQTT_UI/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/MQTT_UI_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
-		[ "E:/QT_Projects/MQTT_UI/main.cpp", "MU", null ]
+		[ "E:/QT_Projects/MQTT_UI/main.cpp", "MU", null ],
+		[ "E:/QT_Projects/MQTT_UI/src/cpp/mqtt.cpp", "MU", null ]
 	],
 	"UIC_OPTIONS" : [],
 	"UIC_SEARCH_PATHS" : [],
