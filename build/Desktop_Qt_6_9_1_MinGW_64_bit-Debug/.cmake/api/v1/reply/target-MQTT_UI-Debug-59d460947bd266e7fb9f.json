@@ -66,7 +66,7 @@
 			{
 				"command" : 3,
 				"file" : 1,
-				"line" : 21,
+				"line" : 23,
 				"parent" : 0
 			},
 			{
@@ -618,15 +618,15 @@
 	"dependencies" : 
 	[
 		{
+			"backtrace" : 0,
+			"id" : "MQTT_UI_autogen::@6890427a1f51a3e7e1df"
+		},
+		{
 			"backtrace" : 69,
 			"id" : "MQTT_UI_qmlimportscan::@6890427a1f51a3e7e1df"
 		},
 		{
 			"id" : "MQTT_UI_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
-		},
-		{
-			"backtrace" : 0,
-			"id" : "MQTT_UI_autogen::@6890427a1f51a3e7e1df"
 		}
 	],
 	"id" : "MQTT_UI::@6890427a1f51a3e7e1df",

@@ -7,7 +7,7 @@
 				{
 					"build" : ".",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-Debug-4557b671d5ff2e74c5b1.json",
+					"jsonFile" : "directory-.-Debug-8083ef0b024c8f06f2ff.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.16"
@@ -46,7 +46,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "MQTT_UI::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-MQTT_UI-Debug-8419dc7b12b7fd4c5dea.json",
+					"jsonFile" : "target-MQTT_UI-Debug-123bc95d4507fe0bbe5a.json",
 					"name" : "MQTT_UI",
 					"projectIndex" : 0
 				},
@@ -67,7 +67,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "MQTT_UI_qmlimportscan::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-MQTT_UI_qmlimportscan-Debug-a33691ed902a739ba5de.json",
+					"jsonFile" : "target-MQTT_UI_qmlimportscan-Debug-0425e4137a5443542a77.json",
 					"name" : "MQTT_UI_qmlimportscan",
 					"projectIndex" : 0
 				}

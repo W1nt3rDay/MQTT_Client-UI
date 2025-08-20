@@ -1,169 +1,99 @@
-#pragma once
 #ifndef MQTT_H
 #define MQTT_H
 
-/*===============================================================
- * File:        mqtt.h
- * Description: MQTT 协议客户端接口头文件
- * Author:      wint3r
- * Created:     2025-07-19
- * Last Update: 2025-08-14
- *================================================================*/
+#define DEBUG_MODE 1
 
- /*==============================
-  * 依赖头文件
-  *==============================*/
-#include <winsock2.h>                                      // SOCKET, WSADATA
-#include <stdint.h>                                               // uint32_t
 #include <QObject>
-  /*==============================
-   * 宏定义（字节操作）
-   *==============================*/
-   // 用于多字节数据处理的宏
-#define BYTE0(dwTemp)   (*(char *)(&dwTemp))
-#define BYTE1(dwTemp)   (*((char *)(&dwTemp) + 1))
-#define BYTE2(dwTemp)   (*((char *)(&dwTemp) + 2))
-#define BYTE3(dwTemp)   (*((char *)(&dwTemp) + 3))
-
-/*==============================
- * 协议固定报文（常量数组）
- *==============================*/
-static const unsigned char packet_connectAck[] = { 0x20, 0x02, 0x00, 0x00 };
-static const unsigned char packet_subAck[] = { 0x90, 0x03 };
-
-/*==============================
- * 全局变量声明
- *==============================*/
-extern SOCKET   connectSocket;                                   // 连接套接字
-extern WSADATA  wsaData;                                   // Winsock 数据结构
-
-/*==============================
- * MQTT 控制报文类型枚举
- *==============================*/
-typedef enum {
-    M_RESERVED1 = 0,                                                   // 保留
-    M_CONNECT = 1,                                       // 客户端请求连接服务器
-    M_CONNACK = 2,                                                 // 连接确认
-    M_PUBLISH = 3,                                                 // 发布消息
-    M_PUBACK = 4,                                             // QoS1 发布确认
-    M_PUBREC = 5,                                     // QoS2 发布收到（第一步）
-    M_PUBREL = 6,                                     // QoS2 发布释放（第二步）
-    M_PUBCOMP = 7,                                    // QoS2 发布完成（第三步）
-    M_SUBSCRIBE = 8,                                               // 订阅请求
-    M_SUBACK = 9,                                                  // 订阅确认
-    M_UNSUBSCRIBE = 10,                                         // 取消订阅请求
-    M_UNSUBACK = 11,                                            // 取消订阅确认
-    M_PINGREQ = 12,                                                // 心跳请求
-    M_PINGRESP = 13,                                               // 心跳响应
-    M_DISCONNECT = 14,                                             // 断开连接
-    M_AUTH = 15                                         // 认证交换（MQTT 5.0）
-} MQTT_MessageType;
-
-/*==============================
- * MQTT 版本枚举
- *==============================*/
-typedef enum {
-    MQTT_VERSION_3_1 = 3,
-    MQTT_VERSION_3_1_1 = 4,
-    MQTT_VERSION_5_0 = 5
-} MQTT_Version;
-
-/*==============================
- * 函数声明
- *==============================*/
-
- /**
-  * @brief 连接到 MQTT 服务器
-  * @param ClientID  客户端 ID
-  * @param Username  用户名
-  * @param Password  密码
-  * @return 0 成功, 1 失败
-  */
-unsigned char MQTT_Connect(const char* ClientID, const char* Username, const char* Password);
-
-/**
- * @brief 发送数据到服务器
- * @param buf  数据缓冲区
- * @param len  数据长度
- */
-void MQTT_SendBuf(const unsigned char* buf, uint32_t len);
-
-/**
- * @brief 发布消息到指定主题
- * @param topic    主题
- * @param message  消息
- * @param qos      服务质量等级
- * @return 0 成功, 1 失败
- */
-unsigned char MQTT_PublishData(char* topic, char* message, unsigned char qos);
-
-/**
- * @brief 订阅或取消订阅主题
- * @param topic    主题
- * @param whether  0 订阅, 1 取消订阅
- * @param qos      QoS 等级
- * @return 0 成功, 1 失败
- */
-unsigned char MQTT_SubscribeTopic(char* topic, unsigned char whether,
-                                  unsigned char qos);
-
-/**
- * @brief 接收数据线程
- */
-void Thread_ReceiveData(void);
-
-/**
- * @brief 网络层接口 - 发送数据
- */
-int Client_SendData(const unsigned char* data, uint32_t len);
-
-/**
- * @brief 网络层接口 - 接收数据
- */
-int Client_GetData(unsigned char* buf);
+#include <QTimer>
+#include <QTcpServer>
 
 
+#define BYTE0(dwTemp)       (*(char *)(&dwTemp))
+#define BYTE1(dwTemp)       (*((char *)(&dwTemp) + 1))
+#define BYTE2(dwTemp)       (*((char *)(&dwTemp) + 2))
+#define BYTE3(dwTemp)       (*((char *)(&dwTemp) + 3))
 
-/**
- * @brief QT通信接口 - setServerIP
- */
-class MqttClient : public QObject
+typedef enum
+{
+    //名字 	    值 			报文流动方向 	描述
+    M_RESERVED1	=0	,	//	禁止	保留
+    M_CONNECT		,	//	客户端到服务端	客户端请求连接服务端
+    M_CONNACK		,	//	服务端到客户端	连接报文确认
+    M_PUBLISH		,	//	两个方向都允许	发布消息
+    M_PUBACK		,	//	两个方向都允许	QoS 1消息发布收到确认
+    M_PUBREC		,	//	两个方向都允许	发布收到（保证交付第一步）
+    M_PUBREL		,	//	两个方向都允许	发布释放（保证交付第二步）
+    M_PUBCOMP		,	//	两个方向都允许	QoS 2消息发布完成（保证交互第三步）
+    M_SUBSCRIBE		,	//	客户端到服务端	客户端订阅请求
+    M_SUBACK		,	//	服务端到客户端	订阅请求报文确认
+    M_UNSUBSCRIBE	,	//	客户端到服务端	客户端取消订阅请求
+    M_UNSUBACK		,	//	服务端到客户端	取消订阅报文确认
+    M_PINGREQ		,	//	客户端到服务端	心跳请求
+    M_PINGRESP		,	//	服务端到客户端	心跳响应
+    M_DISCONNECT	,	//	客户端到服务端	客户端断开连接
+    M_RESERVED2		,	//	禁止	保留
+}_typdef_mqtt_message;
+
+
+class MQTT_WorkClass: public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString serverIP READ serverIP WRITE setServerIP NOTIFY serverIPChanged)
-    Q_PROPERTY(int serverPort READ serverPort WRITE setServerPort NOTIFY serverPortChanged)
-    Q_PROPERTY(QString clientID READ clientID WRITE setClientID NOTIFY clientIDChanged)
-    Q_PROPERTY(QString userName READ userName WRITE setUserName NOTIFY userNameChanged)
-    Q_PROPERTY(QString password READ password WRITE setPassword NOTIFY passwordChanged)
 public:
-    explicit MqttClient(QObject *parent = nullptr);
-    QString serverIP() const;
-    int serverPort() const;
-    QString clientID() const;
-    QString userName() const;
-    QString password() const;
-public slots:
-    Q_INVOKABLE void setServerIP(const QString &ip);
-    Q_INVOKABLE void setServerPort(const int port);
-    Q_INVOKABLE void setClientID(const QString &clientid);
-    Q_INVOKABLE void setUserName(const QString &username);
-    Q_INVOKABLE void setPassword(const QString &pswd);
-    Q_INVOKABLE int start();
+    QTimer* timer = nullptr;
+    MQTT_WorkClass(QObject* parent=nullptr) : QObject(parent) {}
+    ~MQTT_WorkClass();
 
+    //username initialize
+    void LoginInit(char* ProductKey, char* DeviceName, char* DeviceSecret);
+
+    //MQTT protocol function declaraion
+    Q_INVOKABLE quint8 MQTT_PublishData(const QString& topic, const QString& message, quint8 qos);
+    Q_INVOKABLE quint8 MQTT_SubscribeTopic(const QString& topic,quint8 qos,quint8 whether);
+    Q_INVOKABLE void MQTT_Init(void);
+    Q_INVOKABLE quint8 MQTT_Connect(char *ClientID,char *Username,char *Password);
+    Q_INVOKABLE void MQTT_SentHeart(void);
+    Q_INVOKABLE void MQTT_Disconnect(void);
+    Q_INVOKABLE void MQTT_SendBuf(quint8 *buf,quint16 len);
+    Q_INVOKABLE void ConnectMqttServer(QString ip,quint16 port);
+    Q_INVOKABLE void Set_MQTT_Addr(QString ip,quint16 port,QString MQTT_ClientID,QString MQTT_UserName,QString MQTT_PassWord);
+    Q_INVOKABLE void StartEvenLoop();
+public slots:
+    void EndEvenLoop();
+    void run();
+    void LocalTcpClientConnectedSlot();
+    void LocalTcpClientDisconnectedSlot();
+    void LocalTcpClientReadDataSlot();
+    void LocalTcpClientBytesWrittenSlot(qint64 byte);
+    //subscribe topic
+    Q_INVOKABLE void slot_SubscribeTopic(QString topic);
+    //publish message
+    Q_INVOKABLE void slot_PublishData(QString topic, QString message);
+    //disconnect
+    Q_INVOKABLE void slot_tcp_close();
 signals:
-    void serverIPChanged();
-    void serverPortChanged();
-    void clientIDChanged();
-    void userNameChanged();
-    void passwordChanged();
+    void logSend(QString text);
+    void MQTT_ConnectState(bool state);
 private:
-    QString m_serverIP = "124.70.218.131";
-    int m_serverPort = 1883;
-    QString m_clientID = "6883826694a9a05c33772d12_dev_6ull_0_0_2025072513";
-    QString m_userName = "6883826694a9a05c33772d12_dev_6ull";
-    QString m_password = "e28fd984809b1c41768994a2c8ebb24fbff9eea4534888dab00e7d347029e059";
+    quint8 *mqtt_rxbuf;
+    quint8 *mqtt_txbuf;
+    quint16 mqtt_rxlen;
+    quint16 mqtt_txlen;
+    quint8 _mqtt_txbuf[256];//发送数据缓存区
+    quint8 _mqtt_rxbuf[256];//接收数据缓存区
+
+    QTcpSocket* LocalTcpClientSocket = nullptr;
+    QString m_ip;
+    quint16 m_port;
+
+    bool socket_type = 0;
+
+    QString m_MQTT_ClientID;
+    QString m_MQTT_UserName;
+    QString m_MQTT_PassWord;
+
+    QEventLoop loop;
+
+    QByteArray  ReadData;
 };
 
-
-
-#endif // MQTT_H
+#endif

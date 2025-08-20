@@ -1,9 +1,12 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-
-//#include <QtQuickControls2/QQuickStyle>
+#include <QSocketNotifier>
+#include <QCoreApplication>
 #include "src/cpp/mqtt.h"
+
+
+
 
 int main(int argc, char *argv[])
 {
@@ -11,11 +14,14 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QGuiApplication app(argc, argv);
-
-
     QQmlApplicationEngine engine;
-    MqttClient mqttClient;
-    engine.rootContext()->setContextProperty("mqttClient", &mqttClient);
+
+    qmlRegisterType<MQTT_WorkClass>("MyMqtt", 1, 0, "MQTT_WorkClass");
+
+    QCoreApplication::setOrganizationName("MyCompany");
+    QCoreApplication::setOrganizationDomain("mycompany.com");
+    QCoreApplication::setApplicationName("MyApp");
+
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(

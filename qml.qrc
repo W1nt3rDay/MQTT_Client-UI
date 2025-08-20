@@ -1,8 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>src/cpp/mqtt.cpp</file>
-        <file>src/cpp/mqtt.h</file>
         <file>src/qml/LeftPage/LeftPage.qml</file>
         <file>src/qml/RightPage/RightPage.qml</file>
         <file>src/qml/basic/BasicConfig.qml</file>
@@ -15,5 +13,7 @@
         <file>Resources/send-outline.svg</file>
         <file>Resources/ic-published.png</file>
         <file>Resources/publish.png</file>
+        <file>src/cpp/mqtt.cpp</file>
+        <file>src/cpp/mqtt.h</file>
     </qresource>
 </RCC>

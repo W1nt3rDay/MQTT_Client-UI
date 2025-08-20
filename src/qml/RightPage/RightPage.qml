@@ -3,7 +3,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Basic
 import Qt5Compat.GraphicalEffects
-//import
+import QtCore
+
 Rectangle {
     id: mqttInterface
 
@@ -12,12 +13,19 @@ Rectangle {
         width: parent.width
         height: parent.height
         anchors.top: parent.top
-        anchors.topMargin: 24
+        anchors.topMargin: 14
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 10
-        spacing: 20
+        spacing: 10
 
-        // 订阅消息区
+        //history input
+        Settings{
+            id: settings
+            property string publsihTopic: ""
+            property string publishMessage: ""
+        }
+
+        // 订阅消息区（优化版）
         GroupBox {
             id: receiveGroup
             title: "Message Area"
@@ -26,6 +34,7 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.preferredHeight: parent.height * 0.6
+            clip: true
 
             background: Rectangle {
                 color: "#f0f0f0"
@@ -43,46 +52,40 @@ Rectangle {
             }
 
             ColumnLayout {
-                width: parent.width
-                spacing: 5
+                anchors.fill: parent
+                spacing: 4
                 //padding: 8
 
-                // 接收区工具栏
+                // 工具栏：按钮 + checkBox
                 RowLayout {
+                    id: toolBar
                     width: parent.width
                     spacing: 6
+                    Layout.preferredHeight: 24
 
                     Button {
                         id: clearReceiveBtn
                         text: "Clear"
-                        width: 60
-                        height: 28
+                        width: 50; height: 28
                         font.pixelSize: 14
-
                         background: Rectangle {
                             radius: 4
-                            color: clearReceiveBtn.hovered ? "#f0f0f0" : "transparent"
-                            border.color: "#ddd"
-                            border.width: 1
+                            color: clearReceiveBtn.hovered ? "#e8f0fe" : "transparent"
+                            border.color: "#ddd"; border.width: 1
                         }
-
                         onClicked: receiveModel.clear()
                     }
 
                     Button {
                         id: saveReceiveBtn
                         text: "Save"
-                        width: 60
-                        height: 28
+                        width: 50; height: 28
                         font.pixelSize: 14
-
                         background: Rectangle {
                             radius: 4
-                            color: saveReceiveBtn.hovered ? "#f0f0f0" : "transparent"
-                            border.color: "#ddd"
-                            border.width: 1
+                            color: saveReceiveBtn.hovered ? "#e8f0fe" : "transparent"
+                            border.color: "#ddd"; border.width: 1
                         }
-
                         onClicked: console.log("保存接收数据")
                     }
 
@@ -91,46 +94,83 @@ Rectangle {
                     CheckBox { id: showTopicCheck; text: "Display-topic"; checked: true; font.pixelSize: 14 }
                 }
 
-                // 接收消息列表
-                ScrollView {
-                    id: receiveScroll
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    clip: true
-
-                    ListView {
-                        id: receiveList
-                        width: parent.width
-                        model: receiveModel
-                        spacing: 4
-
-                        delegate: Rectangle {
-                            width: parent.width - 10
-                            height: textItem.implicitHeight + 6
-                            color: index % 2 === 0 ? "white" : "#f9f9f9"
-                            radius: 4
-                            border.color: "#eee"
-                            border.width: 1
-
-                            Text {
-                                id: textItem
-                                width: parent.width - 4
-                                font.pixelSize: 14
-                                text: {
-                                    var timeStr = showTimeCheck.checked ? "[" + model.time + "] " : "";
-                                    var topicStr = showTopicCheck.checked ? "[Topic: " + model.topic + "] " : "";
-                                    return timeStr + topicStr + model.payload;
-                                }
-                                wrapMode: Text.WrapAnywhere
-                                color: "#2e7d32"
-                            }
-                        }
-
-                        onModelChanged: if (autoScrollCheck.checked) positionViewAtEnd()
+                Connections {
+                    target: mqttObj
+                    function onLogSend(msg){
+                        var now = new Date();
+                        receiveModel.append({
+                            time: Qt.formatTime(now, "hh:mm:ss"),
+                            topic: "Log",
+                            payload: msg,
+                        })
                     }
                 }
+                //receive message list
+                ListView {
+                    id: receiveList
+                    model: receiveModel
+                    spacing: 8
+                    clip: true
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true   // 让 ListView 占剩余空间
+
+                    // add: Transition {
+                    //     id: addItemTransition
+                    //     NumberAnimation {
+                    //         property: "opacity";
+                    //         from: 0; to: 1;
+                    //         duration: 500;
+                    //         easing.type: Easing.InOutQuad
+                    //     }
+
+                    // }
+
+                    delegate: Rectangle {
+                        width: ListView.view.width * 0.95
+                        height: bubbleText.implicitHeight
+                        radius: 8
+                        color: index % 2 === 0 ? "#ffffff" : "#f5f9ff"
+                        border.color: "#ddd"; border.width: 1
+
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: bubbleText.color = "#1b5e20"
+                            onExited: bubbleText.color = "#2e7d32"
+                        }
+
+                        // 简单淡入动画
+                                opacity: 0
+                                Behavior on opacity { NumberAnimation { duration: 500 } }
+                                Component.onCompleted: opacity = 1
+
+                        Text {
+                            id: bubbleText
+                            anchors.fill: parent
+                            anchors.margins: 8
+                            font.pixelSize: 14
+                            wrapMode: Text.WrapAnywhere
+                            color: "#2e7d32"
+                            text: {
+                                var timeStr = showTimeCheck.checked ? "[" + model.time + "] " : "";
+                                var topicStr = showTopicCheck.checked ? "[Topic: " + model.topic + "] " : "";
+                                return timeStr + topicStr + model.payload;
+                            }
+                        }
+                    }
+
+                    onCountChanged: {
+                        if (autoScrollCheck.checked && count > 0) {
+                            Qt.callLater(positionViewAtEnd)
+                        }
+                    }
+
+
+                }
             }
+
         }
+
 
         // 发布消息区
         GroupBox {
@@ -159,12 +199,12 @@ Rectangle {
 
             ColumnLayout {
                 width: parent.width
-                spacing: 8
+                spacing: 4
 
                 // Publish Topic field
                 RowLayout {
                     width: parent.width
-                    spacing: 6
+                    spacing: 4
 
                     //Publish Topic textField
                     Row {
@@ -187,8 +227,9 @@ Rectangle {
                                 width: 394
                                 height: 36
                                 leftPadding: 5
-                                rightPadding: 5
+                                rightPadding: 35
                                 font.pixelSize: 14
+                                text: settings.publsihTopic
                                 font.family: "Segoe UI, Arial, sans-serif"
                                 placeholderText: "example: sensors/temperature"
                                 inputMethodHints: Qt.ImhNoPredictiveText
@@ -221,23 +262,14 @@ Rectangle {
                                         ColorAnimation { duration: 200 }
                                     }
                                 }
-
                                 onFocusChanged: {
                                     if (focus && text.length === 0) {
                                         console.log("提示: MQTT主题可以包含通配符 # 和 +")
                                     }
                                 }
-
-                                ToolTip {
-                                    id: msgErrorTip
-                                    text: "主题只能包含字母、数字、下划线及/#+-.等字符"
-                                    visible: msgTopicField.isInvalid && msgTopicField.focus
-                                    delay: 500
-                                }
-
                                 onTextChanged: {
-                                    const validRegex = /^[\w\/#\+\-]*$/
-                                    isInvalid = text.length > 0 && !validRegex.test(text)
+                                    settings.publsihTopic = msgTopicField.text
+
                                 }
                             }
                             Image {
@@ -270,6 +302,7 @@ Rectangle {
 
                     }
                 }
+
 
                 //message input textfield
                 Rectangle {
@@ -330,7 +363,8 @@ Rectangle {
                                     cursorShape = Qt.ArrowCursor
                                 }
                                 onClicked: {
-                                    //TODO
+                                    //MQTT_PublishData(char* topic, char* message, quint8 qos)
+                                    mqttObj.MQTT_PublishData(msgTopicField.text, mqttMessageInput.text, 1)
                                 }
                             }
                         }
@@ -391,8 +425,8 @@ Rectangle {
     // 数据模型
     ListModel {
         id: receiveModel
-        ListElement { time: "14:23:45"; topic: "sensors/temp"; payload: "25.8°C" }
-        ListElement { time: "14:24:10"; topic: "sensors/humidity"; payload: "62%" }
+        // ListElement { time: "14:23:45"; topic: "sensors/temp"; payload: "25.8°C" }
+        // ListElement { time: "14:24:10"; topic: "sensors/humidity"; payload: "62%" }
     }
 
     // 发布消息函数
