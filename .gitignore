@@ -1,4 +1,4 @@
-# C++ objects and libs
+# C++ 目标文件和库文件
 *.slo
 *.lo
 *.o
@@ -9,8 +9,10 @@
 *.so.*
 *.dll
 *.dylib
+*.lib
+*.exp
 
-# Qt-es
+# Qt 构建相关文件
 object_script.*.Release
 object_script.*.Debug
 *_plugin_import.cpp
@@ -18,6 +20,7 @@ object_script.*.Debug
 /.qmake.stash
 *.pro.user
 *.pro.user.*
+*.pro.shared
 *.qbs.user
 *.qbs.user.*
 *.moc
@@ -25,30 +28,87 @@ moc_*.cpp
 moc_*.h
 qrc_*.cpp
 ui_*.h
-*.qmlc
-*.jsc
-Makefile*
-*build-*
+lrelease_*.qm
 *.qm
 *.prl
+*.pdb
+*.idb
+*.ilk
+*.map
+*.sym
+*.suo
+*.sdf
+*.opensdf
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
 
-# Qt unit tests
-target_wrapper.*
-
-# QtCreator
-*.autosave
-
-# QtCreator Qml
+# QML/JS 相关产物
+*.qmlc
+*.jsc
+*_qmlcache.qrc
 *.qmlproject.user
 *.qmlproject.user.*
+.qmlproject.cache
+.qmlproject.build
 
-# QtCreator CMake
+# 构建目录
+build/
+build-*/
+*_build/
+cmake-build-*/
+out/
+bin/
+obj/
+
+# Makefile 相关
+Makefile
+Makefile.Debug
+Makefile.Release
+makefile
+*.mak
+
+# Qt Creator 相关
+*.autosave
 CMakeLists.txt.user*
+*.creator
+*.creator.user
+*.creator.user.*
+*.creator.workspace
+*.cflags
+*.cxxflags
+*.files
+*.includes
 
-# QtCreator 4.8< compilation database
+# 编译数据库
 compile_commands.json
+compile_flags.txt
 
-# QtCreator local machine specific files for imported projects
-*creator.user*
+# 测试相关
+target_wrapper.*
+test-*.log
+*.test
+*.tst
 
-*_qmlcache.qrc
+# 系统和环境相关文件
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+*.bak
+*.tmp
+*.log
+*.cache
+.env
+.env.local
+*.user
+
+# 打包相关
+*.tar.gz
+*.tar.bz2
+*.zip
+*.7z
+*.rar
+*.dmg
+*.exe

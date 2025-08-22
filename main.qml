@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
-
+import QtMultimedia
 import MyMqtt 1.0
 import "./src/qml/basic"
 import "./src/qml/LeftPage"
@@ -12,6 +12,16 @@ Window {
     visible: true
     color: "#f0f0f0"
     title: qsTr("MQTT Client V1.0")
+
+    Video{
+        id: backgroundVideo
+        anchors.fill: parent
+        source: "qrc:/Resources/Rain Background.webm"
+        autoPlay: true
+        loops: MediaPlayer.Infinite
+        z: -1
+        fillMode: VideoOutput.Stretch
+    }
 
 
     MQTT_WorkClass{

@@ -39,6 +39,13 @@ Item {
                 font.family: "Times New Roman"
                 placeholderText: "192.168.1.1"
                 text: settings.host
+                background: Rectangle{
+                    color: "transparent"
+                    border.width: 1
+                    radius: 4
+                    border.color: "#666"
+                }
+
                 onTextChanged: {
                     settings.host = text
                 }
@@ -65,6 +72,12 @@ Item {
                 onTextChanged: {
                     settings.port = parseInt(text) || 1883
                 }
+                background: Rectangle{
+                    color: "transparent"
+                    border.width: 1
+                    radius: 4
+                    border.color: "#666"
+                }
             }
         }
 
@@ -83,11 +96,17 @@ Item {
                 leftPadding: 5
                 font.pixelSize: 18
                 font.family: "Times New Roman"
-                text: settings.clientID
-                    onTextChanged: {
-                        settings.clientID = text
-                    }
+                background: Rectangle{
+                    color: "transparent"
+                    border.width: 1
+                    radius: 4
+                    border.color: "#666"
                 }
+                text: settings.clientID
+                onTextChanged: {
+                    settings.clientID = text
+                }
+            }
         }
 
         //Username textfield
@@ -105,11 +124,17 @@ Item {
                 leftPadding: 5
                 font.pixelSize: 18
                 font.family: "Times New Roman"
-                text: settings.username
-                    onTextChanged: {
-                        settings.username = text
-                    }
+                background: Rectangle{
+                    color: "transparent"
+                    border.width: 1
+                    radius: 4
+                    border.color: "#666"
                 }
+                text: settings.username
+                onTextChanged: {
+                    settings.username = text
+                }
+            }
         }
 
         //Password textfield
@@ -131,13 +156,25 @@ Item {
                 onTextChanged: {
                     settings.password = text
                 }
+                background: Rectangle{
+                    color: "transparent"
+                    border.width: 1
+                    radius: 4
+                    border.color: "#666"
+                }
             }
         }
 
         // connection Button
         Button {
             id: connectButton
-            text: isConnected ? "Disconnect" : "Connect"
+            //text: isConnected ? "Disconnect" : "Connect"
+            Text {
+                text: connectButton.isConnected ? "Disconnect" : "Connect"
+                color: "#f8f8f8"
+                anchors.centerIn: parent
+                font.pixelSize: 16
+            }
             anchors.left: parent.left
             anchors.leftMargin: 110
             width: 180
@@ -245,7 +282,6 @@ Item {
                 text: "Subscribe Topic:"
                 font.bold: true
                 font.pixelSize: 18
-                color: "#333333"
                 anchors.verticalCenter: parent.verticalCenter
             }
 
@@ -267,9 +303,9 @@ Item {
 
                     background: Rectangle {
                         id: fieldBg
-                        color: topicField.focus ? "#ffffff" : "#f5f5f5"
+                        color: topicField.focus ? "#ffffff" : "transparent"
                         border.color: topicField.isInvalid ? "#e53935" :
-                                      topicField.focus ? "#4caf50" : "#dddddd"
+                                      topicField.focus ? "#4caf50" : "#666"
                         border.width: 1.5
                         radius: 6
 
@@ -344,7 +380,13 @@ Item {
         //subscribe button
         Button{
             id: subscribeButton
-            text: isSubscribed ? "Unsubscribe" : "Subscribe"
+            //text: isSubscribed ? "Unsubscribe" : "Subscribe"
+            Text {
+                text: subscribeButton.isSubscribed ? "Unsubscribe" : "Subscribe"
+                color: "#f8f8f8"  // 设置文本颜色为橙色
+                anchors.centerIn: parent
+                font.pixelSize: 16
+            }
             width: 120
             height: 36
             font.bold: true
@@ -354,10 +396,6 @@ Item {
             background: Rectangle{
                 radius: 6
                 border.width: 2
-                /*status color: subscribed-deepGreen,
-                 *              unsubscribed-lightGreen,
-                 *              hover-brightGreen
-                 */
                 border.color: {
                     if (subscribeButton.isSubscribed)return "#e53935"
                     return subscribeButton.hovered ? "#66bb6a" : "#4caf50"
@@ -379,7 +417,7 @@ Item {
                     cursorShape: Qt.PointingHandCursor
                     onClicked: {
                         subscribeButton.isSubscribed = !subscribeButton.isSubscribed;
-                        if (subscribeButton.isSubscribed) {
+                        if (subscribeButton.isSubscribed && connectButton.isConnected) {
                             console.log("Subscribed Topic:", topicField.text);
                             mqttObj.MQTT_SubscribeTopic(topicField.text, 0, 1)
                         } else {

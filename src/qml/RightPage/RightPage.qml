@@ -37,7 +37,7 @@ Item {
             clip: true
 
             background: Rectangle {
-                color: "#f0f0f0"
+                color: "transparent"
                 radius: 6
                 border.width: 1
                 border.color: "#e0e0e0"
@@ -172,7 +172,7 @@ Item {
             Layout.preferredHeight: parent.height * 0.4
 
             background: Rectangle {
-                color: "#f0f0f0"
+                color: "transparent"
                 radius: 6
                 border.width: 1
                 border.color: "#e0e0e0"
@@ -204,7 +204,7 @@ Item {
                             text: "Publish Topic:"
                             font.bold: true
                             font.pixelSize: 14
-                            color: "#333333"
+                            //color: "#333333"
                             anchors.verticalCenter: parent.verticalCenter
                         }
 
@@ -226,7 +226,7 @@ Item {
 
                                 background: Rectangle {
                                     id: msgTopicFieldBg
-                                    color: msgTopicField.focus ? "#ffffff" : "#f5f5f5"
+                                    color: msgTopicField.focus ? "#ffffff" : "transparent"
                                     border.color: msgTopicField.isInvalid ? "#e53935" :
                                                   msgTopicField.focus ? "#4caf50" : "#dddddd"
                                     border.width: 1
@@ -300,7 +300,7 @@ Item {
                     border.color: "#ddd"
                     border.width: 1
                     radius: 4
-                    color: "white"
+                    color: "#00000080"
 
                     ScrollView {
                         id: scrollView
@@ -364,7 +364,14 @@ Item {
 
                     Button {
                         id: clearPublishBtn
-                        text: "clear"
+                        //text: "clear"
+                        //color: "#666"
+                        Text {
+                            text: "clear"
+                            color: "#f8f8f8"
+                            anchors.centerIn: parent
+                            font.pixelSize: 16
+                        }
                         width: 50
                         height: 32
                         anchors.verticalCenter: parent.verticalCenter
@@ -392,12 +399,12 @@ Item {
                         }
                     }
 
-                    CheckBox {
-                        id: retainCheck
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: "Retain"
-                        font.pixelSize: 14
-                    }
+                    // CheckBox {
+                    //     id: retainCheck
+                    //     anchors.verticalCenter: parent.verticalCenter
+                    //     text: "Retain"
+                    //     font.pixelSize: 14
+                    // }
 
                     Item { Layout.fillWidth: true }
 
@@ -406,7 +413,7 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         text: "Ready"
                         font.pixelSize: 14
-                        color: "#666"
+                        color: "#f8f8f8"
                     }
                 }
             }

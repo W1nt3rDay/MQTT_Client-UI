@@ -6,17 +6,12 @@
         <file>src/qml/basic/BasicConfig.qml</file>
         <file>Resources/play.png</file>
         <file>Resources/stop.png</file>
-        <file>Resources/Remove.png</file>
-        <file>Resources/remove-sign.png</file>
         <file>Resources/remove 01.png</file>
-        <file>Resources/balloon-outline.svg</file>
-        <file>Resources/send-outline.svg</file>
         <file>Resources/ic-published.png</file>
-        <file>Resources/publish.png</file>
         <file>src/cpp/mqtt.cpp</file>
         <file>src/cpp/mqtt.h</file>
         <file>Resources/zrrj8-cx3nc-001.ico</file>
         <file>Resources/Cute_pig.json</file>
-        <file>Resources/cat.gif</file>
+        <file>Resources/Rain Background.webm</file>
     </qresource>
 </RCC>
