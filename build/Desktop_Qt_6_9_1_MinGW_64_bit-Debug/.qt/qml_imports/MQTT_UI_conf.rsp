@@ -1,9 +1,0 @@
--rootPath
-E:/QT_Projects/MQTT_UI
--cmake-output
--output-file
-E:/QT_Projects/MQTT_UI/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/.qt/qml_imports/MQTT_UI_conf.cmake
--importPath
-E:/QT_Projects/MQTT_UI/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug
--importPath
-D:/APP/QT/6.9.1/mingw_64/qml
