@@ -365,6 +365,10 @@ MQTT_UI_autogen/timestamp: \
 	D:/APP/QT/6.9.1/mingw_64/lib/cmake/Qt6Qml/QmlPlugins/Qt6labsmodelspluginConfig.cmake \
 	D:/APP/QT/6.9.1/mingw_64/lib/cmake/Qt6Qml/QmlPlugins/Qt6labsmodelspluginTargets-relwithdebinfo.cmake \
 	D:/APP/QT/6.9.1/mingw_64/lib/cmake/Qt6Qml/QmlPlugins/Qt6labsmodelspluginTargets.cmake \
+	D:/APP/QT/6.9.1/mingw_64/lib/cmake/Qt6Qml/QmlPlugins/Qt6lottieqtpluginAdditionalTargetInfo.cmake \
+	D:/APP/QT/6.9.1/mingw_64/lib/cmake/Qt6Qml/QmlPlugins/Qt6lottieqtpluginConfig.cmake \
+	D:/APP/QT/6.9.1/mingw_64/lib/cmake/Qt6Qml/QmlPlugins/Qt6lottieqtpluginTargets-relwithdebinfo.cmake \
+	D:/APP/QT/6.9.1/mingw_64/lib/cmake/Qt6Qml/QmlPlugins/Qt6lottieqtpluginTargets.cmake \
 	D:/APP/QT/6.9.1/mingw_64/lib/cmake/Qt6Qml/QmlPlugins/Qt6modelspluginAdditionalTargetInfo.cmake \
 	D:/APP/QT/6.9.1/mingw_64/lib/cmake/Qt6Qml/QmlPlugins/Qt6modelspluginConfig.cmake \
 	D:/APP/QT/6.9.1/mingw_64/lib/cmake/Qt6Qml/QmlPlugins/Qt6modelspluginTargets-relwithdebinfo.cmake \

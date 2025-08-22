@@ -3,6 +3,7 @@
 #include <QQmlContext>
 #include <QSocketNotifier>
 #include <QCoreApplication>
+#include <QIcon>
 #include "src/cpp/mqtt.h"
 
 
@@ -16,6 +17,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
+    app.setWindowIcon(QIcon(":/Resources/zrrj8-cx3nc-001.ico"));
     qmlRegisterType<MQTT_WorkClass>("MyMqtt", 1, 0, "MQTT_WorkClass");
 
     QCoreApplication::setOrganizationName("MyCompany");

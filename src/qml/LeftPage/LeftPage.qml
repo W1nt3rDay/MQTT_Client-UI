@@ -3,8 +3,8 @@ import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Basic
 import QtCore
-
-Rectangle {
+import Qt.labs.lottieqt
+Item {
 
     Column {
         anchors.fill: parent
@@ -381,7 +381,7 @@ Rectangle {
                         subscribeButton.isSubscribed = !subscribeButton.isSubscribed;
                         if (subscribeButton.isSubscribed) {
                             console.log("Subscribed Topic:", topicField.text);
-                            mqttObj.MQTT_SubscribeTopic(topicField.text, 1, 1)
+                            mqttObj.MQTT_SubscribeTopic(topicField.text, 0, 1)
                         } else {
                             console.log("Unsubscribed Topic:", topicField.text);
                             //TODO: unsubscribe logic
@@ -391,6 +391,26 @@ Rectangle {
 
         }
 
+        Item{
+            width: 264
+            height: 264
+            //color: "#f0f0f0"
+            LottieAnimation{
+                id: cuteAnim
+                anchors.centerIn: parent
+                scale: 0.1
+                source: "qrc:/Resources/Cute_pig.json"
+                loops: LottieAnimation.Infinite
+
+
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        //cuteAnim.restart()
+                    }
+                }
+            }
+        }
 
     }
 }

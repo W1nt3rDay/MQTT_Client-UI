@@ -1802,6 +1802,27 @@
 		},
 		{
 			"isExternal" : true,
+			"path" : "D:/APP/QT/6.9.1/mingw_64/lib/cmake/Qt6Qml/QmlPlugins/Qt6lottieqtpluginConfig.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "D:/APP/QT/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "D:/APP/QT/6.9.1/mingw_64/lib/cmake/Qt6Qml/QmlPlugins/Qt6lottieqtpluginTargets.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "D:/APP/QT/6.9.1/mingw_64/lib/cmake/Qt6Qml/QmlPlugins/Qt6lottieqtpluginTargets-relwithdebinfo.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "D:/APP/QT/6.9.1/mingw_64/lib/cmake/Qt6Qml/QmlPlugins/Qt6lottieqtpluginAdditionalTargetInfo.cmake"
+		},
+		{
+			"isExternal" : true,
 			"path" : "D:/APP/QT/6.9.1/mingw_64/lib/cmake/Qt6Qml/QmlPlugins/Qt6modelspluginConfig.cmake"
 		},
 		{
@@ -2906,6 +2927,10 @@
 		{
 			"isExternal" : true,
 			"path" : "D:/APP/QT/6.9.1/mingw_64/lib/cmake/Qt6Qml/QmlPlugins/Qt6labsmodelspluginConfig.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "D:/APP/QT/6.9.1/mingw_64/lib/cmake/Qt6Qml/QmlPlugins/Qt6lottieqtpluginConfig.cmake"
 		},
 		{
 			"isExternal" : true,

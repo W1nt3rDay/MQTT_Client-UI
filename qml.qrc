@@ -15,5 +15,8 @@
         <file>Resources/publish.png</file>
         <file>src/cpp/mqtt.cpp</file>
         <file>src/cpp/mqtt.h</file>
+        <file>Resources/zrrj8-cx3nc-001.ico</file>
+        <file>Resources/Cute_pig.json</file>
+        <file>Resources/cat.gif</file>
     </qresource>
 </RCC>

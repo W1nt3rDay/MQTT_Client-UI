@@ -1,5 +1,8 @@
 #include <QDebug>
 #include <QTcpSocket>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonValue>
 
 #include "mqtt.h"
 
@@ -299,11 +302,11 @@ void MQTT_WorkClass::MQTT_SendBuf(quint8 *buf,quint16 len)
 {
     if(socket_type)
     {
-        //        qDebug()<<"len:"<<len;
-        //        for(int i=0;i<len;i++)
-        //        {
-        //            qDebug("%#x ",buf[i]);
-        //        }
+               qDebug()<<"len:"<<len;
+               for(int i=0;i<len;i++)
+               {
+                   qDebug("%#x ",buf[i]);
+               }
         LocalTcpClientSocket->write((const char *)buf,len);
     }
 }
@@ -355,24 +358,110 @@ void MQTT_WorkClass::LocalTcpClientConnectedSlot()
 void MQTT_WorkClass::LocalTcpClientDisconnectedSlot()
 {
     socket_type=0;
-
     //通知外部
     emit MQTT_ConnectState(socket_type);
+    emit logSend(QString("Client Disconnect\n"));
 }
 
-//客户端模式：读取服务器发过来的数据
 void MQTT_WorkClass::LocalTcpClientReadDataSlot()
 {
-    ReadData=LocalTcpClientSocket->readAll();
-    qDebug()<<"Read data sent by the server:"<<ReadData.length();
-    qDebug()<<"As hex:"<<ReadData.toHex(' ');
-    EndEvenLoop(); //退出事件循环
+    ReadData = LocalTcpClientSocket->readAll();
+    if (ReadData.length() > 2 )
+    {
+    emit logSend(QString("Read data sent by the server: %1\n").arg(ReadData.length()));
+    qDebug() << "Read data sent by the server:" << ReadData.length();
+    qDebug() << "As hex:" << ReadData.toHex(' ');
+    }
+
+    // -------------------------- 第一步：剥离MQTT协议头，定位到JSON payload --------------------------
+    int dataPos = 0;
+    // 1. 跳过MQTT控制字节（1字节，PUBLISH消息固定为0x30）
+    if (dataPos >= ReadData.length()) {
+        emit logSend("MQTT data empty\n");
+        EndEvenLoop();
+        return;
+    }
+    dataPos += 1;
+
+    // 2. 解码MQTT剩余长度（变长编码，1-4字节）
+    quint32 remainingLength = 0;
+    quint8 remainingLengthBytes = 0;
+    quint8 encodedByte;
+    do {
+        if (dataPos >= ReadData.length() || remainingLengthBytes > 4) {
+            emit logSend("MQTT remaining length error\n");
+            EndEvenLoop();
+            return;
+        }
+        encodedByte = ReadData.at(dataPos++);
+        remainingLength |= (encodedByte & 0x7F) << (7 * remainingLengthBytes);
+        remainingLengthBytes++;
+    } while ((encodedByte & 0x80) != 0);
+
+    // 3. 跳过MQTT可变头（Topic：2字节长度 + Topic内容）
+    if (dataPos + 2 > ReadData.length()) {
+        //emit logSend("MQTT Topic length missing\n");
+        EndEvenLoop();
+        return;
+    }
+    quint16 topicLength = (static_cast<quint8>(ReadData.at(dataPos)) << 8) | static_cast<quint8>(ReadData.at(dataPos + 1));
+    dataPos += 2 + topicLength;  // 跳过“Topic长度”和“Topic内容”
+
+    // 4. 提取JSON payload（此时dataPos指向payload起始位置）
+    if (dataPos >= ReadData.length()) {
+        //emit logSend("MQTT payload missing\n");
+        EndEvenLoop();
+        return;
+    }
+    QByteArray jsonPayload = ReadData.mid(dataPos);  // 从dataPos到末尾都是JSON
+    emit logSend(QString("Extracted JSON payload: %1\n").arg(QString(jsonPayload)));
+
+    // -------------------------- 第二步：解析JSON，提取所有content消息 --------------------------
+    // QJsonParseError jsonErr;
+    // QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonPayload, &jsonErr);
+    // if (jsonErr.error != QJsonParseError::NoError) {
+    //     emit logSend(QString("JSON parse error: %1\n").arg(jsonErr.errorString()));
+    //     EndEvenLoop();
+    //     return;
+    // }
+
+    // // 5. 提取root对象中的content字段
+    // QJsonObject rootObj = jsonDoc.object();
+    // if (!rootObj.contains("content")) {  // 检查是否有content字段
+    //     emit logSend("JSON has no 'content' field\n");
+    //     EndEvenLoop();
+    //     return;
+    // }
+    // QJsonValue contentVal = rootObj["content"];
+    // if (!contentVal.isObject()) {  // 确保content是对象（而非数组/字符串）
+    //     emit logSend("JSON 'content' is not an object\n");
+    //     EndEvenLoop();
+    //     return;
+    // }
+    // QJsonObject contentObj = contentVal.toObject();  // 转换为content对象
+
+    // // 6. 提取content中的所有键值对（无论有多少字段，都能全部提取）
+    // QString allContentMsg = "All content messages:\n";
+    // for (auto iter = contentObj.begin(); iter != contentObj.end(); iter++) {
+    //     QString key = iter.key();          // 字段名（如"Temp"）
+    //     QString value = iter.value().toString();  // 字段值（如"111"）
+    //     allContentMsg += QString("  %1: %2\n").arg(key).arg(value);
+    // }
+
+    // // 输出结果（日志+调试信息）
+    // emit logSend(allContentMsg);
+    // qDebug() << allContentMsg;
+
+    EndEvenLoop();
 }
 
 //客户端模式：数据发送成功
 void MQTT_WorkClass::LocalTcpClientBytesWrittenSlot(qint64 byte)
 {
-    emit logSend(QString("send data success! TvT:%1\n").arg(byte));
+    if (byte > 2)
+    {
+    emit logSend(QString("send data len: %1\n").arg(byte));
+    }
     EndEvenLoop(); //退出事件循环
 }
 

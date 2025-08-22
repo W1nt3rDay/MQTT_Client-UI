@@ -5,7 +5,7 @@ import QtQuick.Controls.Basic
 import Qt5Compat.GraphicalEffects
 import QtCore
 
-Rectangle {
+Item {
     id: mqttInterface
 
     ColumnLayout {
@@ -28,7 +28,7 @@ Rectangle {
         // 订阅消息区（优化版）
         GroupBox {
             id: receiveGroup
-            title: "Message Area"
+            //title: "Message Area"
             font.pixelSize: 18
             font.bold: true
             Layout.fillWidth: true
@@ -61,12 +61,12 @@ Rectangle {
                     id: toolBar
                     width: parent.width
                     spacing: 6
-                    Layout.preferredHeight: 24
+                    Layout.preferredHeight: 12
 
                     Button {
                         id: clearReceiveBtn
                         text: "Clear"
-                        width: 50; height: 28
+                        width: 24; height: 28
                         font.pixelSize: 14
                         background: Rectangle {
                             radius: 4
@@ -89,7 +89,7 @@ Rectangle {
                         onClicked: console.log("保存接收数据")
                     }
 
-                    CheckBox { id: autoScrollCheck; text: "Auto-scroll"; checked: true; font.pixelSize: 14 }
+                    CheckBox { id: autoScrollCheck; text: "Auto-scroll"; checked: true; font.pixelSize: 14}
                     CheckBox { id: showTimeCheck; text: "Display-time"; checked: true; font.pixelSize: 14 }
                     CheckBox { id: showTopicCheck; text: "Display-topic"; checked: true; font.pixelSize: 14 }
                 }
@@ -113,17 +113,6 @@ Rectangle {
                     clip: true
                     Layout.fillWidth: true
                     Layout.fillHeight: true   // 让 ListView 占剩余空间
-
-                    // add: Transition {
-                    //     id: addItemTransition
-                    //     NumberAnimation {
-                    //         property: "opacity";
-                    //         from: 0; to: 1;
-                    //         duration: 500;
-                    //         easing.type: Easing.InOutQuad
-                    //     }
-
-                    // }
 
                     delegate: Rectangle {
                         width: ListView.view.width * 0.95
@@ -175,7 +164,7 @@ Rectangle {
         // 发布消息区
         GroupBox {
             id: publishGroup
-            title: "Publish Area"
+            //title: "Publish Area"
             font.bold: true
             font.pixelSize: 18
             Layout.fillWidth: true
@@ -307,7 +296,7 @@ Rectangle {
                 //message input textfield
                 Rectangle {
                     width: 500
-                    height: 75
+                    height: 120
                     border.color: "#ddd"
                     border.width: 1
                     radius: 4
@@ -364,7 +353,9 @@ Rectangle {
                                 }
                                 onClicked: {
                                     //MQTT_PublishData(char* topic, char* message, quint8 qos)
-                                    mqttObj.MQTT_PublishData(msgTopicField.text, mqttMessageInput.text, 1)
+                                    console.log("原始消息（含转义字符）:", JSON.stringify(msgTopicField.text));
+                                    console.log("原始消息（含转义字符）:", JSON.stringify(mqttMessageInput.text));
+                                    mqttObj.MQTT_PublishData(msgTopicField.text, mqttMessageInput.text, 0)
                                 }
                             }
                         }
@@ -426,28 +417,8 @@ Rectangle {
     ListModel {
         id: receiveModel
         // ListElement { time: "14:23:45"; topic: "sensors/temp"; payload: "25.8°C" }
-        // ListElement { time: "14:24:10"; topic: "sensors/humidity"; payload: "62%" }
+        ListElement { time: "08:03:30"; topic: "Welcome"; payload: "princess&pigcess!\n" }
     }
 
-    // 发布消息函数
-    function publishMessage(topic, payload, qos) {
-        const timeStr = Qt.formatTime(new Date(), "hh:mm:ss")
-        statusLabel.text = `已发布到 ${topic}`
-        statusLabel.color = "#2e7d32"
 
-        setTimeout(() => {
-            statusLabel.text = "就绪"
-            statusLabel.color = "#666"
-        }, 1500)
-
-        console.log(`[${timeStr}] 发布到 ${topic}: ${payload}`)
-    }
-
-    // 接收消息函数
-    function receiveMessage(topic, payload) {
-        const timeStr = Qt.formatTime(new Date(), "hh:mm:ss")
-        if (receiveModel.count >= 500) receiveModel.remove(0, 1)
-        receiveModel.append({ time: timeStr, topic: topic, payload: payload })
-        if (autoScrollCheck.checked) receiveList.positionViewAtEnd()
-    }
 }

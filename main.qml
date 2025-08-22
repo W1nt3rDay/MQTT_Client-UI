@@ -13,10 +13,10 @@ Window {
     color: "#f0f0f0"
     title: qsTr("MQTT Client V1.0")
 
+
     MQTT_WorkClass{
         id: mqttObj
     }
-
 
     Row{
         id: mainRow
@@ -28,7 +28,7 @@ Window {
         //leftpage: parameters information
         LeftPage{
             id: leftPage
-            color: "#f0f0f0"
+            //color: "#f0f0f0"
             width: parent.width * 0.4
             height: mainRow.height
         }
@@ -36,7 +36,7 @@ Window {
         //rightpage: output & debug info
         RightPage{
             id: rightPage
-            color: "#f0f0f0"
+            //color: "#f0f0f0"
             width: parent.width * 0.52
             height: mainRow.height
         }
