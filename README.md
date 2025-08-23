@@ -74,11 +74,14 @@ mingw32-make
 2. <img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/31b27553-6686-4c63-bc48-c80097a50f63" />
 
    复制这个接入地址，打开cmd，执行： ping 4b79cd58d1.st1.iotda-device.cn-east-3.myhuaweicloud.com  这个服务器地址填你复制的接入地址即可,最后能得到ip地址
+   
    <img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/a0968562-58ba-4f43-b29a-d1901963d168" />
 
 4. Port 固定1883
 5. ClientID、Username、Password三元组填你之前生成的即可
+
    <img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/b3b5dbd9-207c-49c0-83be-78fd01d8ea98" />
+
    <img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/55be104e-f59d-499e-b14c-a3ce52c8bf11" />
 可以看到华为云服务器上设备状态显示在线
 
