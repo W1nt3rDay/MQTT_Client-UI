@@ -65,12 +65,14 @@ mingw32-make
 <img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/55b60c0f-c743-4976-8641-ce9d7261cae9" />
 
 
-1. Server IP: 在创建的实例中可以找到<img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/31b27553-6686-4c63-bc48-c80097a50f63" />
+1. Server IP: 在创建的实例中可以找到
+2. <img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/31b27553-6686-4c63-bc48-c80097a50f63" />
 
-   复制这个接入地址，打开cmd，执行： ping 4b79cd58d1.st1.iotda-device.cn-east-3.myhuaweicloud.com  这个服务器地址填你复制的接入地址即可,最后能得到ip地址<img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/a0968562-58ba-4f43-b29a-d1901963d168" />
+   复制这个接入地址，打开cmd，执行： ping 4b79cd58d1.st1.iotda-device.cn-east-3.myhuaweicloud.com  这个服务器地址填你复制的接入地址即可,最后能得到ip地址
+   <img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/a0968562-58ba-4f43-b29a-d1901963d168" />
 
-2. Port 固定1883
-3. ClientID、Username、Password三元组填你之前生成的即可
+4. Port 固定1883
+5. ClientID、Username、Password三元组填你之前生成的即可
    <img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/b3b5dbd9-207c-49c0-83be-78fd01d8ea98" />
 连接成功
    <img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/55be104e-f59d-499e-b14c-a3ce52c8bf11" />
@@ -90,12 +92,15 @@ mingw32-make
    }
    ```
 
-要想接收到服务器下发的消息，在客户端只需订阅Topic即可<img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/eee56642-5b60-4029-abbc-94299b750675" />
+要想接收到服务器下发的消息，在客户端只需订阅Topic即可
+<img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/eee56642-5b60-4029-abbc-94299b750675" />
 
 
-我尝试在服务器下发消息<img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/abe9962c-2d90-4f96-81cb-965f65952da0" />
+我尝试在服务器下发消息
+<img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/abe9962c-2d90-4f96-81cb-965f65952da0" />
 
-可以看到客户端成功接收到了来自服务器的消息内容<img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/3ef78fbd-a769-4c39-b933-671d4d1a89b6" />
+可以看到客户端成功接收到了来自服务器的消息内容
+<img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/3ef78fbd-a769-4c39-b933-671d4d1a89b6" />
 
 
 我在产品模型中创建了两个属性，Temp和Humi
@@ -120,7 +125,8 @@ Topic: $oc/devices/{device_id}/sys/properties/report
 <img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/568ee3d8-067e-4b00-85d3-d9ca029c8408" />
 
 
-点击发送，可以看到服务器中的Temp和Humi成功更新<img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/22733af0-1466-4c02-aa71-91881c177e77" />
+点击发送，可以看到服务器中的Temp和Humi成功更新
+<img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/22733af0-1466-4c02-aa71-91881c177e77" />
 
 
 到此就完成了服务器下发消息与客户端上传消息的实验操作
