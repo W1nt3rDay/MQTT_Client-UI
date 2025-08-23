@@ -49,15 +49,20 @@ mingw32-make
 <img width="1019" height="339" alt="Screenshot 2025-08-23 092141" src="https://github.com/user-attachments/assets/67f77742-e59b-45b1-a3b6-fb34e48d388b" />
 
 
-2. 在该实例下创建产品<img width="711" height="477" alt="Screenshot 2025-08-23 092253" src="https://github.com/user-attachments/assets/c38fc092-b7ea-4c50-8312-5e81f28f8b9e" />
+2. 在该实例下创建产品
+3. <img width="711" height="477" alt="Screenshot 2025-08-23 092253" src="https://github.com/user-attachments/assets/c38fc092-b7ea-4c50-8312-5e81f28f8b9e" />
 
-3. 在该产品下定义模型<img width="711" height="326" alt="Screenshot 2025-08-23 092724" src="https://github.com/user-attachments/assets/3be5bcf7-13e3-456f-839b-ccf3c25890f1" />
+4. 在该产品下定义模型
+5. <img width="711" height="326" alt="Screenshot 2025-08-23 092724" src="https://github.com/user-attachments/assets/3be5bcf7-13e3-456f-839b-ccf3c25890f1" />
 
-4. 在该模型下注册设备：注意保存device_id和密钥<img width="1037" height="416" alt="Screenshot 2025-08-23 092500" src="https://github.com/user-attachments/assets/350b0ebd-0aac-4bf2-9857-06639f5cc506" />
+6. 在该模型下注册设备：注意保存device_id和密钥
+7. <img width="1037" height="416" alt="Screenshot 2025-08-23 092500" src="https://github.com/user-attachments/assets/350b0ebd-0aac-4bf2-9857-06639f5cc506" />
 
-5. device_id和secret<img width="436" height="93" alt="Screenshot 2025-08-23 093141" src="https://github.com/user-attachments/assets/881d7b44-6581-459a-b8e3-ab1b14b74a13" />
+8. device_id和secret
+9. <img width="436" height="93" alt="Screenshot 2025-08-23 093141" src="https://github.com/user-attachments/assets/881d7b44-6581-459a-b8e3-ab1b14b74a13" />
 
-6. 利用上面两个信息，在[Huaweicloud IoTDA Mqtt ClientId Generator](https://iot-tool.obs-website.cn-north-4.myhuaweicloud.com/)里生成三元组信息用来连接华为云服务器<img width="1273" height="674" alt="Screenshot 2025-08-23 093316" src="https://github.com/user-attachments/assets/b2ca2004-5322-4e10-aba0-a07bc38a898c" />
+10. 利用上面两个信息，在[Huaweicloud IoTDA Mqtt ClientId Generator](https://iot-tool.obs-website.cn-north-4.myhuaweicloud.com/)里生成三元组信息用来连接华为云服务器
+11. <img width="1273" height="674" alt="Screenshot 2025-08-23 093316" src="https://github.com/user-attachments/assets/b2ca2004-5322-4e10-aba0-a07bc38a898c" />
 
 
 ### 2. 客户端连接Client Connect
@@ -74,7 +79,6 @@ mingw32-make
 4. Port 固定1883
 5. ClientID、Username、Password三元组填你之前生成的即可
    <img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/b3b5dbd9-207c-49c0-83be-78fd01d8ea98" />
-连接成功
    <img width="421" height="248" alt="Screenshot 2025-08-23 093505" src="https://github.com/user-attachments/assets/55be104e-f59d-499e-b14c-a3ce52c8bf11" />
 可以看到华为云服务器上设备状态显示在线
 
